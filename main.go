@@ -99,7 +99,7 @@ func main() {
 	}
 
 	dayFun := days.DayMap[*dayFlag-1]
-	first, second := dayFun(string(content))
+	first, second := dayFun(content)
 	l.Print("First part:")
 	fmt.Println(first)
 	l.Print("Second part:")

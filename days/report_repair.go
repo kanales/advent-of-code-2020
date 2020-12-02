@@ -3,21 +3,21 @@ package days
 // Day 1 - Report Repair
 
 import (
+	"bytes"
 	"errors"
 	"strconv"
-	"strings"
 )
 
 // Expenses as a slice of integers
 type Expenses []int
 
 // ParseExpenses parses intInput from string
-func ParseExpenses(data string) Expenses {
-	lines := strings.Split(data, "\n")
+func ParseExpenses(data []byte) Expenses {
+	lines := bytes.Split(data, []byte{'\n'})
 	lines = lines[:len(lines)-1]
 	output := make([]int, len(lines))
 	for i, line := range lines {
-		value, err := strconv.Atoi(line)
+		value, err := strconv.Atoi(string(line))
 		if err != nil {
 			panic(err)
 		}

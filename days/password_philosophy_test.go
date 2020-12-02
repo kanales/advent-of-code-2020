@@ -1,18 +1,37 @@
 package days
 
 import (
+	"bytes"
 	"reflect"
 	"testing"
 )
 
-func TestParsePassword(t *testing.T) {
-	input := "1-3 a: abcde\n1-3 b: cdefg\n2-9 c: ccccccccc\n"
+// func TestParseRecord(t *testing.T) {
+// 	input := []byte("1-3 a: abcde")
+// 	expect := PasswordRecord{Low: 1, High: 3, Value: 'a', Password: []byte("abcde")}
+// 	got := ParseRecord(input)
+// 	if expect.Low != got.Low {
+// 		t.Errorf(".Low = %v; want %v", got.Low, expect.Low)
+// 	}
+// 	if expect.High != got.High {
+// 		t.Errorf(".High = %v; want %v", got.High, expect.High)
+// 	}
+// 	if expect.Value != got.Value {
+// 		t.Errorf(".Value = %v; want %v", got.Value, expect.Value)
+// 	}
+// 	if !bytes.Equal(expect.Password, got.Password) {
+// 		t.Errorf(".Password = %v; want %v", got.Password, expect.Password)
+// 	}
+// }
+
+func TestParseRecords(t *testing.T) {
+	input := []byte("1-3 a: abcde\n1-3 b: cdefg\n2-9 c: ccccccccc\n")
 	expect := []PasswordRecord{
-		{Low: 1, High: 3, Value: "a", Password: "abcde"},
-		{Low: 1, High: 3, Value: "b", Password: "cdefg"},
-		{Low: 2, High: 9, Value: "c", Password: "ccccccccc"},
+		{Low: 1, High: 3, Value: 'a', Password: []byte("abcde")},
+		{Low: 1, High: 3, Value: 'b', Password: []byte("cdefg")},
+		{Low: 2, High: 9, Value: 'c', Password: []byte("ccccccccc")},
 	}
-	got := ParsePasswords(input)
+	got := ParseRecords(input)
 	for i, record := range expect {
 		record2 := got[i]
 		if record2.Low != record.Low {
@@ -24,7 +43,7 @@ func TestParsePassword(t *testing.T) {
 		if record2.Value != record.Value {
 			t.Errorf(".Value = %v; want %v", record2.Value, record.Value)
 		}
-		if record2.Password != record.Password {
+		if !bytes.Equal(record2.Password, record.Password) {
 			t.Errorf(".Password = %v; want %v", record2.Password, record.Password)
 		}
 	}
@@ -32,9 +51,9 @@ func TestParsePassword(t *testing.T) {
 
 func TestIsPasswordCorrect(t *testing.T) {
 	input := []PasswordRecord{
-		{Low: 1, High: 3, Value: "a", Password: "abcde"},
-		{Low: 1, High: 3, Value: "b", Password: "cdefg"},
-		{Low: 1, High: 9, Value: "c", Password: "ccccccccc"},
+		{Low: 1, High: 3, Value: 'a', Password: []byte("abcde")},
+		{Low: 1, High: 3, Value: 'b', Password: []byte("cdefg")},
+		{Low: 2, High: 9, Value: 'c', Password: []byte("ccccccccc")},
 	}
 
 	if !IsPasswordCorrect1(input[0]) {
@@ -52,9 +71,9 @@ func TestIsPasswordCorrect(t *testing.T) {
 
 func TestIsPasswordCorrect2(t *testing.T) {
 	input := []PasswordRecord{
-		{Low: 1, High: 3, Value: "a", Password: "abcde"},
-		{Low: 1, High: 3, Value: "b", Password: "cdefg"},
-		{Low: 1, High: 9, Value: "c", Password: "ccccccccc"},
+		{Low: 1, High: 3, Value: 'a', Password: []byte("abcde")},
+		{Low: 1, High: 3, Value: 'b', Password: []byte("cdefg")},
+		{Low: 2, High: 9, Value: 'c', Password: []byte("ccccccccc")},
 	}
 
 	if !IsPasswordCorrect2(input[0]) {
@@ -72,9 +91,9 @@ func TestIsPasswordCorrect2(t *testing.T) {
 
 func TestCountCorrectPasswords(t *testing.T) {
 	input := []PasswordRecord{
-		{Low: 1, High: 3, Value: "a", Password: "abcde"},
-		{Low: 1, High: 3, Value: "b", Password: "cdefg"},
-		{Low: 1, High: 9, Value: "c", Password: "ccccccccc"},
+		{Low: 1, High: 3, Value: 'a', Password: []byte("abcde")},
+		{Low: 1, High: 3, Value: 'b', Password: []byte("cdefg")},
+		{Low: 2, High: 9, Value: 'c', Password: []byte("ccccccccc")},
 	}
 	expect := 2
 	got := CountCorrectPasswords(input, IsPasswordCorrect1)
