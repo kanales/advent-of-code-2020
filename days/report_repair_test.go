@@ -6,6 +6,7 @@ import (
 	"testing"
 )
 
+// DAY 1
 func TestFindExpenses(t *testing.T) {
 	input := []int{1721, 979, 366, 299, 675, 1456}
 	x, y, _ := findExpenses2(input, 2020)
@@ -21,11 +22,11 @@ func TestFindExpenses(t *testing.T) {
 	}
 }
 
-func TestParseInput(t *testing.T) {
-	input := "1721\n979\n366\n299\n675\n1456"
-	got := ParseInput(input)
-	expect := IntInput([]int{1721, 979, 366, 299, 675, 1456})
+func TestParseExpenses(t *testing.T) {
+	input := "1721\n979\n366\n299\n675\n1456\n"
+	got := ParseExpenses(input)
+	expect := Expenses([]int{1721, 979, 366, 299, 675, 1456})
 	if !reflect.DeepEqual(got, expect) {
-		t.Errorf("ParseInput(%v) = %v; want %v", strconv.Quote(input), got, expect)
+		t.Errorf("ParseExpenses(%v) = %v; want %v", strconv.Quote(input), got, expect)
 	}
 }
