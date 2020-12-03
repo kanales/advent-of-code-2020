@@ -40,6 +40,7 @@ func main() {
 
 	if *clearFlag {
 		os.RemoveAll("cache")
+		os.Exit(0)
 	}
 
 	jar, err := cookiejar.New(nil)

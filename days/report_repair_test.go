@@ -2,7 +2,6 @@ package days
 
 import (
 	"reflect"
-	"strconv"
 	"testing"
 )
 
@@ -23,10 +22,10 @@ func TestFindExpenses(t *testing.T) {
 }
 
 func TestParseExpenses(t *testing.T) {
-	input := "1721\n979\n366\n299\n675\n1456\n"
+	input := []byte("1721\n979\n366\n299\n675\n1456\n")
 	got := ParseExpenses(input)
 	expect := Expenses([]int{1721, 979, 366, 299, 675, 1456})
 	if !reflect.DeepEqual(got, expect) {
-		t.Errorf("ParseExpenses(%v) = %v; want %v", strconv.Quote(input), got, expect)
+		t.Errorf("ParseExpenses(%q) = %v; want %v", input, got, expect)
 	}
 }

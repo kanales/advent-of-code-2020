@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"os"
 	"path"
@@ -64,7 +63,7 @@ func FetchInput(client *http.Client, year int, day int) ([]byte, error) {
 	file, err := os.Create(filename)
 	defer file.Close()
 	url := fmt.Sprintf("https://adventofcode.com/%d/day/%d/input", year, day)
-	log.Printf("Fetching input from %s...", url)
+
 	resp, err := client.Get(url)
 	if err != nil {
 		return nil, err

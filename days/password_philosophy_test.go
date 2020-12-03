@@ -6,24 +6,6 @@ import (
 	"testing"
 )
 
-// func TestParseRecord(t *testing.T) {
-// 	input := []byte("1-3 a: abcde")
-// 	expect := PasswordRecord{Low: 1, High: 3, Value: 'a', Password: []byte("abcde")}
-// 	got := ParseRecord(input)
-// 	if expect.Low != got.Low {
-// 		t.Errorf(".Low = %v; want %v", got.Low, expect.Low)
-// 	}
-// 	if expect.High != got.High {
-// 		t.Errorf(".High = %v; want %v", got.High, expect.High)
-// 	}
-// 	if expect.Value != got.Value {
-// 		t.Errorf(".Value = %v; want %v", got.Value, expect.Value)
-// 	}
-// 	if !bytes.Equal(expect.Password, got.Password) {
-// 		t.Errorf(".Password = %v; want %v", got.Password, expect.Password)
-// 	}
-// }
-
 func TestParseRecords(t *testing.T) {
 	input := []byte("1-3 a: abcde\n1-3 b: cdefg\n2-9 c: ccccccccc\n")
 	expect := []PasswordRecord{
