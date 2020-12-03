@@ -4,14 +4,11 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"io"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"net/http/cookiejar"
 	"net/url"
 	"os"
-	"path"
 
 	"github.com/kanales/advent-of-code-2020/days"
 )
@@ -19,37 +16,6 @@ import (
 type configuration struct {
 	Year    int
 	Session string
-}
-
-func fileExists(filename string) bool {
-	info, err := os.Stat(filename)
-	if os.IsNotExist(err) {
-		return false
-	}
-	return !info.IsDir()
-}
-
-func fetchInput(client *http.Client, day int) ([]byte, error) {
-	filename := path.Join(".", "cache", fmt.Sprintf("input_%d.txt", day))
-
-	if fileExists(filename) {
-		return ioutil.ReadFile(filename)
-	}
-
-	file, err := os.Create(filename)
-	defer file.Close()
-	url := fmt.Sprintf("https://adventofcode.com/%d/day/%d/input", Config.Year, day)
-	l.Printf("Fetching input from %s...", url)
-	resp, err := client.Get(url)
-	if err != nil {
-		return nil, err
-	}
-	l.Println("OK")
-	defer resp.Body.Close()
-
-	io.Copy(file, resp.Body)
-	file.Seek(0, 0)
-	return ioutil.ReadAll(file)
 }
 
 // Config struct
@@ -65,19 +31,15 @@ func configInit(filename string) error {
 
 var clearFlag = flag.Bool("clean", false, "clean cache")
 var dayFlag = flag.Int("day", 0, "select day")
-var l = log.New(os.Stderr, "", 0)
 
 func main() {
 	configInit("conf.json")
 	flag.Parse()
+	log.SetOutput(os.Stderr)
+	log.SetFlags(0)
 
 	if *clearFlag {
 		os.RemoveAll("cache")
-	}
-
-	if *dayFlag == 0 {
-		l.Fatal("Expected day flag")
-		os.Exit(1)
 	}
 
 	jar, err := cookiejar.New(nil)
@@ -92,16 +54,53 @@ func main() {
 	// Create cache if it doesn't exist
 	_ = os.Mkdir("cache", os.ModePerm)
 
+	if *dayFlag != 0 {
+		res := runDay(client, *dayFlag)
+		outputResult(res)
+	} else {
+		runAll(client)
+	}
+
+}
+
+func runDay(client *http.Client, day int) days.DayResult {
 	// Run day
-	content, err := fetchInput(client, *dayFlag)
+	content, err := days.FetchInput(client, Config.Year, day)
 	if err != nil {
 		panic(err)
 	}
 
-	dayFun := days.DayMap[*dayFlag-1]
-	first, second := dayFun(content)
-	l.Print("First part:")
-	fmt.Println(first)
-	l.Print("Second part:")
-	fmt.Println(second)
+	dayFun := days.DayMap[day-1]
+	result := dayFun(content)
+	return result
+}
+
+func runAll(client *http.Client) {
+	c := make(chan days.DayResult)
+	defer close(c)
+
+	for d := range days.DayMap {
+		go func(d int) {
+			res := runDay(client, d)
+			c <- res
+		}(d + 1)
+	}
+
+	counter := len(days.DayMap)
+	for res := range c {
+		outputResult(res)
+		counter--
+		if counter == 0 {
+			break
+		}
+	}
+
+}
+
+func outputResult(res days.DayResult) {
+	log.Printf("== Day %v ==\n", res.Day)
+	log.Print("First part:")
+	fmt.Println(res.First)
+	log.Print("Second part:")
+	fmt.Println(res.Second)
 }
