@@ -50,6 +50,21 @@ var DayMap []dayFunc = []dayFunc{
 		}
 		return DayResult{Day: 3, First: first, Second: second}
 	},
+	func(input []byte) DayResult {
+		passports := ParsePassports(input)
+		first := 0
+		second := 0
+		for _, passport := range passports {
+			if passport.HasRequiredFields() {
+				first++
+			}
+			if passport.Validate() {
+				second++
+			}
+		}
+
+		return DayResult{Day: 4, First: first, Second: second}
+	},
 }
 
 // FetchInput outputs the input for that day, or downloads it if necessary

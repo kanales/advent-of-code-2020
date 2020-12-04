@@ -14,16 +14,16 @@ type PasswordRecord struct {
 	Password []byte
 }
 
-var re *regexp.Regexp
+var rePassword *regexp.Regexp
 
 func init() {
 	// Example: `1-3 a: abcde`
-	re = regexp.MustCompile(`(?m)^(\d+)-(\d+) ([[:alpha:]]): ([[:alpha:]]+)$`)
+	rePassword = regexp.MustCompile(`(?m)^(\d+)-(\d+) ([[:alpha:]]): ([[:alpha:]]+)$`)
 }
 
 // ParseRecords generates a slice of password records from input
 func ParseRecords(data []byte) []PasswordRecord {
-	matches := re.FindAllSubmatch(data, -1)
+	matches := rePassport.FindAllSubmatch(data, -1)
 
 	records := make([]PasswordRecord, len(matches))
 	for i, match := range matches {
