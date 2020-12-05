@@ -9,6 +9,11 @@ import (
 	"path"
 )
 
+var (
+	// NL is the (*nix) newline separator
+	NL = []byte{'\n'}
+)
+
 // DayResult contains the result for evaluating the problems in a day
 type DayResult struct {
 	Day    int
@@ -64,6 +69,15 @@ var DayMap []dayFunc = []dayFunc{
 		}
 
 		return DayResult{Day: 4, First: first, Second: second}
+	},
+	func(input []byte) DayResult {
+		seats := ParsePlaneSeating(input)
+
+		second, err := seats.FindMissingId()
+		if err != nil {
+			panic(err)
+		}
+		return DayResult{Day: 5, First: seats.FindMaxId(), Second: second}
 	},
 }
 
