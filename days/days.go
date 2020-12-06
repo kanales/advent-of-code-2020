@@ -1,6 +1,7 @@
 package days
 
 import (
+	"errors"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -79,6 +80,22 @@ var DayMap []dayFunc = []dayFunc{
 		}
 		return DayResult{Day: 5, First: seats.FindMaxId(), Second: second}
 	},
+
+	func(input []byte) DayResult {
+		groups := ParseCustomsGroups(input)
+
+		first := 0
+		for _, group := range groups {
+			first += group.CombinedAnswers()
+		}
+
+		second := 0
+		for _, group := range groups {
+			second += group.CommonAnswers()
+		}
+
+		return DayResult{Day: 6, First: first, Second: second}
+	},
 }
 
 // FetchInput outputs the input for that day, or downloads it if necessary
@@ -89,16 +106,19 @@ func FetchInput(client *http.Client, year int, day int) ([]byte, error) {
 		return ioutil.ReadFile(filename)
 	}
 
-	file, err := os.Create(filename)
-	defer file.Close()
 	url := fmt.Sprintf("https://adventofcode.com/%d/day/%d/input", year, day)
 
 	resp, err := client.Get(url)
 	if err != nil {
 		return nil, err
 	}
+	if resp.StatusCode != 200 {
+		return nil, errors.New(fmt.Sprintf("%v when fetching day %v", resp.StatusCode, day))
+	}
 	defer resp.Body.Close()
 
+	file, err := os.Create(filename)
+	defer file.Close()
 	io.Copy(file, resp.Body)
 	file.Seek(0, 0)
 	return ioutil.ReadAll(file)
