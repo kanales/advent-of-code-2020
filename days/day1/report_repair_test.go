@@ -1,4 +1,4 @@
-package days
+package day1
 
 import (
 	"reflect"
@@ -8,13 +8,13 @@ import (
 // DAY 1
 func TestFindExpenses(t *testing.T) {
 	input := []int{1721, 979, 366, 299, 675, 1456}
-	x, y, _ := findExpenses2(input, 2020)
+	x, y, _ := FindExpenses2(input, 2020)
 	if x*y != 514579 {
 		t.Errorf("FindExpenses(%v) = (%d,%d); want (%d, %d)",
 			input, x, y, 1721, 299)
 	}
 
-	x, y, z, _ := findExpenses3(input, 2020)
+	x, y, z, _ := FindExpenses3(input, 2020)
 	if x*y*z != 241861950 {
 		t.Errorf("FindExpenses(%v) = (%d,%d,%d); want (%d, %d, %d)",
 			input, x, y, z, 979, 366, 675)

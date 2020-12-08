@@ -1,4 +1,4 @@
-package days
+package day2
 
 import (
 	"bytes"
@@ -23,7 +23,7 @@ func init() {
 
 // ParseRecords generates a slice of password records from input
 func ParseRecords(data []byte) []PasswordRecord {
-	matches := rePassport.FindAllSubmatch(data, -1)
+	matches := rePassword.FindAllSubmatch(data, -1)
 
 	records := make([]PasswordRecord, len(matches))
 	for i, match := range matches {

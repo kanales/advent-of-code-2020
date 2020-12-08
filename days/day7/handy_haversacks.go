@@ -1,10 +1,11 @@
-package days
+package day7
 
 import (
 	"bytes"
-	"fmt"
 	"regexp"
 	"strconv"
+
+	"github.com/kanales/advent-of-code-2020/util"
 )
 
 type LuggageRule struct {
@@ -43,7 +44,7 @@ func parseLuggageRule(input []byte) LuggageRule {
 }
 
 func ParseLuggageRules(input []byte) LuggageRules {
-	lines := bytes.Split(bytes.TrimRight(input, "\n"), NL)
+	lines := bytes.Split(bytes.TrimRight(input, "\n"), util.NL)
 	rules := make(LuggageRules, len(lines))
 	for _, line := range lines {
 		rule := parseLuggageRule(line)
@@ -111,7 +112,6 @@ func (rules *LuggageRules) CountCanContain(color string) int {
 	count := 0
 	memo := make(map[string]bool)
 
-	fmt.Printf("%v\n", (*rules)["dotted tan"])
 	for k := range *rules {
 		if rules.canContainMemo(k, color, memo) {
 			count += 1

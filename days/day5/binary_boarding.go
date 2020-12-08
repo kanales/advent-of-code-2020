@@ -1,10 +1,12 @@
-package days
+package day5
 
 import (
 	"bytes"
 	"errors"
 	"fmt"
 	"sort"
+
+	"github.com/kanales/advent-of-code-2020/util"
 )
 
 type PlaneSeat struct {
@@ -49,7 +51,7 @@ func parsePlaneSeat(input []byte) PlaneSeat {
 type PlaneSeating []PlaneSeat
 
 func ParsePlaneSeating(input []byte) PlaneSeating {
-	lines := bytes.Split(input[:len(input)-1], NL)
+	lines := bytes.Split(input[:len(input)-1], util.NL)
 	seats := make([]PlaneSeat, len(lines))
 	for i, line := range lines {
 		seats[i] = parsePlaneSeat(line)

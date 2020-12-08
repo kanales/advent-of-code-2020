@@ -1,8 +1,10 @@
-package days
+package day8
 
 import (
 	"bytes"
 	"strconv"
+
+	"github.com/kanales/advent-of-code-2020/util"
 )
 
 type HandheldInstruction struct {
@@ -20,7 +22,7 @@ func (prog *HandheldProgram) Len() int {
 }
 
 func ParseHandheldProgram(input []byte) HandheldProgram {
-	lines := bytes.Split(bytes.TrimRight(input, "\n"), NL)
+	lines := bytes.Split(bytes.TrimRight(input, "\n"), util.NL)
 	program := make(HandheldProgram, len(lines))
 	for i := range lines {
 		split := bytes.Split(lines[i], []byte{' '})

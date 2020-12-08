@@ -1,12 +1,16 @@
-package days
+package day6
 
-import "bytes"
+import (
+	"bytes"
+
+	"github.com/kanales/advent-of-code-2020/util"
+)
 
 type CustomsGroup map[byte]int
 
 func ParseCustomsGroup(input []byte) CustomsGroup {
 	out := make(map[byte]int)
-	nlines := bytes.Count(input, NL) + 1
+	nlines := bytes.Count(input, util.NL) + 1
 	for _, c := range input {
 		if 'a' <= c && c <= 'z' {
 			out[c] += 1

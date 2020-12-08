@@ -8,11 +8,15 @@ import (
 	"net/http"
 	"os"
 	"path"
-)
 
-var (
-	// NL is the (*nix) newline separator
-	NL = []byte{'\n'}
+	"github.com/kanales/advent-of-code-2020/days/day1"
+	"github.com/kanales/advent-of-code-2020/days/day2"
+	"github.com/kanales/advent-of-code-2020/days/day3"
+	"github.com/kanales/advent-of-code-2020/days/day4"
+	"github.com/kanales/advent-of-code-2020/days/day5"
+	"github.com/kanales/advent-of-code-2020/days/day6"
+	"github.com/kanales/advent-of-code-2020/days/day7"
+	"github.com/kanales/advent-of-code-2020/days/day8"
 )
 
 // DayResult contains the result for evaluating the problems in a day
@@ -26,22 +30,22 @@ type dayFunc func([]byte) DayResult
 // DayMap maps "days" to functions
 var DayMap []dayFunc = []dayFunc{
 	func(input []byte) DayResult {
-		expenses := ParseExpenses(input)
-		x, y, _ := findExpenses2(expenses, 2020)
+		expenses := day1.ParseExpenses(input)
+		x, y, _ := day1.FindExpenses2(expenses, 2020)
 		first := x * y
 
-		x, y, z, _ := findExpenses3(expenses, 2020)
+		x, y, z, _ := day1.FindExpenses3(expenses, 2020)
 		second := x * y * z
 		return DayResult{Day: 1, First: first, Second: second}
 	},
 	func(input []byte) DayResult {
-		records := ParseRecords(input)
-		first := CountCorrectPasswords(records, IsPasswordCorrect1)
-		second := CountCorrectPasswords(records, IsPasswordCorrect2)
+		records := day2.ParseRecords(input)
+		first := day2.CountCorrectPasswords(records, day2.IsPasswordCorrect1)
+		second := day2.CountCorrectPasswords(records, day2.IsPasswordCorrect2)
 		return DayResult{Day: 2, First: first, Second: second}
 	},
 	func(input []byte) DayResult {
-		area := ParseSlidingArea(input)
+		area := day3.ParseSlidingArea(input)
 		first := area.CastRay(3, 1)
 		second := 1
 		pairs := [](struct{ x, y int }){
@@ -57,7 +61,7 @@ var DayMap []dayFunc = []dayFunc{
 		return DayResult{Day: 3, First: first, Second: second}
 	},
 	func(input []byte) DayResult {
-		passports := ParsePassports(input)
+		passports := day4.ParsePassports(input)
 		first := 0
 		second := 0
 		for _, passport := range passports {
@@ -72,7 +76,7 @@ var DayMap []dayFunc = []dayFunc{
 		return DayResult{Day: 4, First: first, Second: second}
 	},
 	func(input []byte) DayResult {
-		seats := ParsePlaneSeating(input)
+		seats := day5.ParsePlaneSeating(input)
 
 		second, err := seats.FindMissingId()
 		if err != nil {
@@ -82,7 +86,7 @@ var DayMap []dayFunc = []dayFunc{
 	},
 
 	func(input []byte) DayResult {
-		groups := ParseCustomsGroups(input)
+		groups := day6.ParseCustomsGroups(input)
 		first := 0
 		for _, group := range groups {
 			first += group.CombinedAnswers()
@@ -95,14 +99,14 @@ var DayMap []dayFunc = []dayFunc{
 	},
 
 	func(input []byte) DayResult {
-		rules := ParseLuggageRules(input)
+		rules := day7.ParseLuggageRules(input)
 		first := rules.CountCanContain("shiny gold")
 		second := rules.BagsContained("shiny gold")
 		return DayResult{Day: 7, First: first, Second: second}
 	},
 
 	func(input []byte) DayResult {
-		prog := ParseHandheldProgram(input)
+		prog := day8.ParseHandheldProgram(input)
 		first, _ := prog.Run()
 		prog.Fix()
 		second, _ := prog.Run()

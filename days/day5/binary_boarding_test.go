@@ -1,4 +1,4 @@
-package days
+package day5
 
 import (
 	"reflect"

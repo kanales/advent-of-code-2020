@@ -1,4 +1,4 @@
-package days
+package day4
 
 import (
 	"bytes"

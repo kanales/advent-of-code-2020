@@ -1,4 +1,4 @@
-package days
+package day1
 
 // Day 1 - Report Repair
 
@@ -26,7 +26,7 @@ func ParseExpenses(data []byte) Expenses {
 	return output
 }
 
-func findExpenses2(input Expenses, addto int) (int, int, error) {
+func FindExpenses2(input Expenses, addto int) (int, int, error) {
 	for idx1, elem1 := range input {
 		for idx2, elem2 := range input {
 			if idx1 != idx2 && elem1+elem2 == addto {
@@ -37,7 +37,7 @@ func findExpenses2(input Expenses, addto int) (int, int, error) {
 	return 0, 0, errors.New("Could not find expenses")
 }
 
-func findExpenses3(input Expenses, addto int) (int, int, int, error) {
+func FindExpenses3(input Expenses, addto int) (int, int, int, error) {
 	for idx1, elem1 := range input {
 		for idx2, elem2 := range input {
 			for idx3, elem3 := range input {
