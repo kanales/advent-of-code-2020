@@ -83,18 +83,30 @@ var DayMap []dayFunc = []dayFunc{
 
 	func(input []byte) DayResult {
 		groups := ParseCustomsGroups(input)
-
 		first := 0
 		for _, group := range groups {
 			first += group.CombinedAnswers()
 		}
-
 		second := 0
 		for _, group := range groups {
 			second += group.CommonAnswers()
 		}
-
 		return DayResult{Day: 6, First: first, Second: second}
+	},
+
+	func(input []byte) DayResult {
+		rules := ParseLuggageRules(input)
+		first := rules.CountCanContain("shiny gold")
+		second := rules.BagsContained("shiny gold")
+		return DayResult{Day: 7, First: first, Second: second}
+	},
+
+	func(input []byte) DayResult {
+		prog := ParseHandheldProgram(input)
+		first, _ := prog.Run()
+		prog.Fix()
+		second, _ := prog.Run()
+		return DayResult{Day: 8, First: first, Second: second}
 	},
 }
 
