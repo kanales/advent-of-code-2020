@@ -1,5 +1,7 @@
 package util
 
+var NL = []byte{'\n'}
+
 func Max(a, b int) int {
 	if a >= b {
 		return a
