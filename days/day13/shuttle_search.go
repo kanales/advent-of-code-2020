@@ -2,7 +2,6 @@ package day13
 
 import (
 	"bytes"
-	"fmt"
 	"math"
 	"strconv"
 
@@ -77,15 +76,16 @@ func (sched BusSchedule) FindTimestampOrder() int64 {
 	mods = mods[:i]
 	residuals = residuals[:i]
 
-	// assert all mods are pairwise coprime
-	for i, mi := range mods {
-		for j := i + 1; j < len(mods); j++ {
-			if gcd := umath.GCD(mi, mods[j]); gcd != 1 {
-				err := fmt.Sprintf("Can't apply CRT: GCD(%d, %d) = %d", mi, mods[j], gcd)
-				panic(err)
-			}
-		}
-	}
+	// IGNORED FOR PERFORMANCE
+	// // assert all mods are pairwise coprime
+	// for i, mi := range mods {
+	// 	for j := i + 1; j < len(mods); j++ {
+	// 		if gcd := umath.GCD(mi, mods[j]); gcd != 1 {
+	// 			err := fmt.Sprintf("Can't apply CRT: GCD(%d, %d) = %d", mi, mods[j], gcd)
+	// 			panic(err)
+	// 		}
+	// 	}
+	// }
 	timestamp, _ := umath.BigChineseRemainderTheorem(residuals, mods)
 
 	return timestamp // fix the displacement
