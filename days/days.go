@@ -11,6 +11,7 @@ import (
 
 	"github.com/kanales/advent-of-code-2020/days/day1"
 	"github.com/kanales/advent-of-code-2020/days/day13"
+	"github.com/kanales/advent-of-code-2020/days/day14"
 	"github.com/kanales/advent-of-code-2020/days/day2"
 	"github.com/kanales/advent-of-code-2020/days/day3"
 	"github.com/kanales/advent-of-code-2020/days/day4"
@@ -137,6 +138,19 @@ var DayMap []dayFunc = []dayFunc{
 
 		second := sched.FindTimestampOrder()
 		return DayResult{Day: 13, First: int(first), Second: int(second)}
+	},
+	func(input []byte) DayResult {
+		program := day14.ParseProgram(input)
+		first := uint64(0)
+		for _, b := range program.Run(nil) {
+			first += b
+		}
+
+		second := uint64(0)
+		for _, b := range program.RunV2(nil) {
+			second += b
+		}
+		return DayResult{Day: 14, First: int(first), Second: int(second)}
 	},
 }
 
