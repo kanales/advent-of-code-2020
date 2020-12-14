@@ -1,6 +1,7 @@
 package day14
 
 import (
+	"math"
 	"regexp"
 	"strconv"
 )
@@ -49,8 +50,9 @@ func (mask *Mask) Float(address uint64) []uint64 {
 
 	floating := []uint64{address}
 
+	bytecount := math.Ilogb(float64(changing))
 	// length of the changing bytes
-	for significant := uint64(1 << 35); significant > 0; significant >>= 1 {
+	for significant := uint64(1 << bytecount); significant > 0; significant >>= 1 {
 		n := len(floating)
 		for i := 0; i < n; i++ {
 			if s := changing & significant; s != 0 {
