@@ -12,6 +12,7 @@ import (
 	"github.com/kanales/advent-of-code-2020/days/day1"
 	"github.com/kanales/advent-of-code-2020/days/day13"
 	"github.com/kanales/advent-of-code-2020/days/day14"
+	"github.com/kanales/advent-of-code-2020/days/day15"
 	"github.com/kanales/advent-of-code-2020/days/day2"
 	"github.com/kanales/advent-of-code-2020/days/day3"
 	"github.com/kanales/advent-of-code-2020/days/day4"
@@ -151,6 +152,13 @@ var DayMap []dayFunc = []dayFunc{
 			second += b
 		}
 		return DayResult{Day: 14, First: int(first), Second: int(second)}
+	},
+	func(input []byte) DayResult {
+		starting := day15.ParseInput(input)
+		first := day15.MemoryGame(starting, 2020)
+		second := day15.MemoryGame(starting, 30000000)
+
+		return DayResult{Day: 15, First: int(first), Second: int(second)}
 	},
 }
 
