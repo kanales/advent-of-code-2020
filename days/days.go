@@ -8,11 +8,13 @@ import (
 	"net/http"
 	"os"
 	"path"
+	"strings"
 
 	"github.com/kanales/advent-of-code-2020/days/day1"
 	"github.com/kanales/advent-of-code-2020/days/day13"
 	"github.com/kanales/advent-of-code-2020/days/day14"
 	"github.com/kanales/advent-of-code-2020/days/day15"
+	"github.com/kanales/advent-of-code-2020/days/day16"
 	"github.com/kanales/advent-of-code-2020/days/day2"
 	"github.com/kanales/advent-of-code-2020/days/day3"
 	"github.com/kanales/advent-of-code-2020/days/day4"
@@ -159,6 +161,19 @@ var DayMap []dayFunc = []dayFunc{
 		second := day15.MemoryGame(starting, 30000000)
 
 		return DayResult{Day: 15, First: int(first), Second: int(second)}
+	},
+	func(input []byte) DayResult {
+		note := day16.ParseNote(input)
+		first := note.Validate()
+
+		second := 1
+		for i, f := range note.OrderedFields() {
+			if strings.HasPrefix(f.Name, "departure") {
+				second *= note.YourTicket[i]
+			}
+		}
+
+		return DayResult{Day: 16, First: int(first), Second: int(second)}
 	},
 }
 
